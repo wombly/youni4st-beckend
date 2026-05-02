@@ -42,7 +42,7 @@ async def chat_with_sokratus(request: ChatRequest):
     messages = [system_prompt] + request.history + [{"role": "user", "content": request.message}]
 
     payload = {
-        "model": "gpt-5.2",
+        "model": "gpt-5.4-mini",
         "messages": messages
     }
 
