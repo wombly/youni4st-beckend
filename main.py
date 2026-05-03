@@ -5,6 +5,12 @@ import requests
 
 app = FastAPI()
 
+@app.get("/ping")
+async def health_check():
+    # Этот код просто говорит "я не сплю"
+    # Он НЕ вызывает ИИ, поэтому токены НЕ тратятся
+    return {"status": "alive"}
+
 # Разрешаем CORS для всех (чтобы Flutter мог делать запросы)
 app.add_middleware(
     CORSMiddleware,
