@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import requests
+import httpx  # ЗАМЕНИЛИ requests на httpx
 
 app = FastAPI()
 
@@ -56,10 +56,16 @@ async def chat_with_sokratus(request: ChatRequest):
     }
 
     try:
-        # Отправляем запрос к нейросети
-        response = requests.post(B_AI_URL, json=payload, headers=headers)
-        response.raise_for_status()
-        data = response.json()
+        # ИСПОЛЬЗУЕМ АСИНХРОННЫЙ КЛИЕНТ HTTPX
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                B_AI_URL, 
+                json=payload, 
+                headers=headers,
+                timeout=30.0 # Увеличили таймаут для ожидания ответа ИИ
+            )
+            response.raise_for_status()
+            data = response.json()
         
         ai_text = data['choices'][0]['message']['content']
         
@@ -68,7 +74,7 @@ async def chat_with_sokratus(request: ChatRequest):
         
         return {"reply": ai_text}
         
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 # Запуск локально: uvicorn main:app --reload
