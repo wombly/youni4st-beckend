@@ -7,10 +7,10 @@ app = FastAPI()
 
 # --- КОНФИГУРАЦИЯ ---
 # ТВОЙ_ТЕЛЕГРАМ_ТОКЕН - возьми его у BotFather
-TELEGRAM_TOKEN = "ТВОЙ_ТОКЕН_ОТ_BOTFATHER"
+TELEGRAM_TOKEN = "8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw"
 B_AI_API_KEY = "sk-5s1uibj3tn7j3d5omz45rkikl94snhsr"
 B_AI_URL = "https://api.b.ai/v1/chat/completions"
-TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
+TELEGRAM_API_URL = f"https://api.telegram.org/bot8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw"
 
 # Разрешаем CORS
 app.add_middleware(
