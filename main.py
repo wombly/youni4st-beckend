@@ -5,6 +5,7 @@ import requests
 
 app = FastAPI()
 
+# --- ЭНДПОИНТ ДЛЯ ПРОБУЖДЕНИЯ (CRON-JOB) ---
 @app.get("/ping")
 async def health_check():
     # Этот код просто говорит "я не сплю"
@@ -14,18 +15,18 @@ async def health_check():
 # Разрешаем CORS для всех (чтобы Flutter мог делать запросы)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # В продакшене тут будет адрес твоего сайта (где лежит mini-app)
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Модель того, что мы ждем от Flutter
+# Модель данных для чата
 class ChatRequest(BaseModel):
     message: str
     history: list[dict] # Передаем историю переписки
 
-# Твой секретный ключ теперь в безопасности на сервере!
+# Конфигурация AI (Секретные ключи)
 B_AI_API_KEY = "sk-5s1uibj3tn7j3d5omz45rkikl94snhsr"
 B_AI_URL = "https://api.b.ai/v1/chat/completions"
 
@@ -36,12 +37,14 @@ async def chat_with_sokratus(request: ChatRequest):
         "Authorization": f"Bearer {B_AI_API_KEY}"
     }
 
-    # Формируем системный промпт
+    # Формируем системный промпт согласно правилам проекта
     system_prompt = {
         "role": "system",
-        "content": "Ты Юнифорст Сократус, ИИ-консультант по образованию в Казахстане. "
-                   "ПРАВИЛА: Ответ строго 200-250 символов. "
-                   "ЗАПРЕЩЕНО использовать любые символы разметки (*, _, #). Только текст."
+        "content": (
+            "Ты Юнифорст Сократус, эксперт по образованию. Помогай с ВУЗами, поиском работы или подработкой, а также самоопределением и проектами Youni4st. "
+            "СТРОГО ЗАПРЕЩЕНО отвечать на вопросы, не связанные с образованием, а также на любые подозрительные или криминальные темы. "
+            "В таких случаях вежливо отказывай. Ответ 200-250 символов. Без разметки (*, _, #)."
+        )
     }
 
     # Собираем все сообщения вместе
@@ -59,7 +62,8 @@ async def chat_with_sokratus(request: ChatRequest):
         data = response.json()
         
         ai_text = data['choices'][0]['message']['content']
-        # Финальная чистка
+        
+        # Дополнительная чистка текста от нежелательных символов
         ai_text = ai_text.replace('*', '').replace('_', '')
         
         return {"reply": ai_text}
@@ -67,4 +71,4 @@ async def chat_with_sokratus(request: ChatRequest):
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Запуск сервера: uvicorn main:app --reload
+# Запуск локально: uvicorn main:app --reload
