@@ -9,10 +9,10 @@ app = FastAPI()
 
 # --- КОНФИГУРАЦИЯ (Через переменные окружения для безопасности) ---
 # На Render добавь их в Settings -> Environment Variables
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", "8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw")
-B_AI_API_KEY = os.getenv("B_AI_API_KEY", "sk-5s1uibj3tn7j3d5omz45rkikl94snhsr")
+TELEGRAM_TOKEN = os.getenv("8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw")
+B_AI_API_KEY = os.getenv("sk-5s1uibj3tn7j3d5omz45rkikl94snhsr")
 B_AI_URL = "https://api.b.ai/v1/chat/completions"
-TELEGRAM_API_URL = f"https://api.telegram.org/bot{8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw}"
+TELEGRAM_API_URL = f"https://api.telegram.org/bot8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw"
 
 # Разрешаем CORS для связи с Flutter (Web и Mobile)
 app.add_middleware(
