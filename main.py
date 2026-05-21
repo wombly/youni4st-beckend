@@ -7,7 +7,7 @@ app = FastAPI()
 
 # --- КОНФИГУРАЦИЯ TELEGRAM ТОКЕНОВ ДЛЯ УВЕДОМЛЕНИЙ ---
 TELEGRAM_TOKEN = "8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw"  # Замени на настоящий токен твоего бота
-TELEGRAM_API_URL = f"https://api.telegram.org/bot{8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw}/sendMessage"
+TELEGRAM_API_URL = f"https://api.telegram.org/bot8768948746:AAEB_DfIbDwmO2uHhFb4XKLQKAlARgO5WIw/sendMessage"
 
 # --- ЭНДПОИНТ ДЛЯ ПРОБУЖДЕНИЯ (CRON-JOB) ---
 @app.get("/ping")
